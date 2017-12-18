@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property="og:title" content="Profile" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://portal.airgtwy.com/member/profile/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Profile"/>
+<meta name="twitter:description" content=""/>
+<meta name="generator" content="Hugo 0.26" />
+
+
+    
+      
+    
+
+    <link rel="icon" href="/images/favicon.png">
+    <link rel="canonical" href="https://portal.airgtwy.com/member/profile/">
+
+    <title>Airline Developer Portal</title>
+
+    <!-- combined, minified CSS -->
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://portal.airgtwy.com/css/all.css" rel="stylesheet"/>
+    
+
+    
+
+    
+
+    
+
+  </head>
+
+  <body>
+    <nav class="nav fixed-top blog-nav">
+        <div class="container">
+          <a class="navbar-brand" href="https://portal.airgtwy.com/">Airline Developer Portal</a>
+
+
+      </div>
+    </nav>
+
+    <div class="container-main">
+        
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                
+
+
+                
+                <div class="col-md-7 center">
+
+    <h1>Manage your profile</h1>
+
+    <div class="panel panel-success success-form collapse">
+    <div class="panel-heading">
+        <h3 class="panel-title">Success</h3>
+    </div>
+    <div class="panel-body">
+        Form has been successfully saved
+    </div>
+</div>
+
+    <div class="panel panel-primary" id="profile-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile</h3>
+        </div>
+        <div class="panel-body">
+            <form action="" method="POST">
+                <div class="form-group">
+                    <label for="username">Email address</label>
+                    <input type="email"
+                           required
+                           class="form-control"
+                           id="username"
+                           name="username"
+                           placeholder="Enter email"
+                           value="">
+                </div>
+
+                <input type="submit" class="btn btn-success" value="Update">
+            </form>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+        </div>
+    </div>
+
+    </div> <!-- /.container-main -->
+
+
+
+    <div class="container">
+      <footer>
+        <p>Powered by <a href="http://airgateway.net/">AirGateway</a> - The NDC Gateway Company</p>
+      </footer>
+    </div>
+
+    <script id="tpl_menu" type="text/html">
+        
+        <% if (localStorage.token) { %>
+            <div class="float-right dropdown">
+                <a href="#" class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account
+                </a>
+                <div class= "dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/member/dashboard/">API Dashboard</a>
+                    <a class="dropdown-item" href="/member/profile/">Edit profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a id="logout" class="dropdown-item" href="#">Log out</a>
+                </div>
+            </div>
+            
+            
+            <a class="nav-link" href="/apis/">API Catalogue</a>
+            
+        <% } else { %>
+            
+            
+            <a class="nav-link" href="/register/">Register</a>
+            
+            
+            
+            <a class="nav-link" href="/login/">Log in</a>
+            
+        <% } %>
+        
+        
+        <a class="nav-link " href="/validator/">NDC Validator</a>
+        
+
+    </script>
+
+    <script id="tpl_input" type="text/html">
+        <div class="form-group">
+            <label for="<%- name %>"><%- label %></label>
+            <input class="form-control"
+                   id="<%- name %>"
+                   name="<%- name %>"
+                   placeholder=""
+                   value="<%- value ? value : '' %>"
+                   autocomplete="off">
+        </div>
+    </script> <!-- /#tpl_input -->
+
+    <script id="tpl_hidden_input" type="text/html">
+        <div class="form-group">
+            <input class="form-control"
+                   type="hidden"
+                   name="<%- name %>"
+                   placeholder=""
+                   value="<%- value ? value : '' %>"
+                   autocomplete="off">
+        </div>
+    </script> <!-- /#tpl_hidden_input -->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" integrity="sha256-8E6QUcFg1KTnpEU8TFGhpTGHw5fJqB9vCms3OhAYLqw=" crossorigin="anonymous"></script>
+    <script>
+        
+        window.lodash = _.noConflict();
+
+        
+        window.underscore = _.noConflict();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" integrity="sha256-F6h55Qw6sweK+t7SiOJX+2bpSAa3b/fnlrVCJvmEj1A=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://portal.airgtwy.com/js/chart.min.js"></script>
+    <script type="text/javascript" src="https://portal.airgtwy.com/js/all.js"></script>
+  </body>
+</html>

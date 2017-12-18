@@ -1,0 +1,95 @@
+# Save changes to GitHub
+backend:
+  name: github
+  repo: AirGateway/portal
+  branch: master
+
+# Use the Editorial workflow - https://github.com/netlify/netlify-cms/blob/master/docs/editorial_workflow.md
+publish_mode: editorial_workflow
+
+# Save image uploads to /img/uploads - https://gohugo.io/themes/creation/#static
+media_folder: "images/"
+public_folder: "images/"
+
+# Collections
+collections: # A list of collections the CMS should be able to edit
+  - name: "home"
+    label: "Home"
+    folder: "content/home"
+    create: false
+    slug: "_index"
+    fields:
+      - {label: "API Dashboard Menu option", name: "menuapidashboard", widget: "string"}
+      - {label: "Edit Profile Menu option", name: "menueditprofile", widget: "string"}
+      - {label: "Menu log out", name: "menulogout", widget: "string"}
+      - {label: "Footer legend", name: "footerlegend", widget: "markdown"}
+      - {label: "Account menu option", name: "account", widget: "string"}
+      - {label: "Jumbo Title", name: "jumbotitle", widget: "string"}
+      - {label: "View APIs link", name: "viewapis", widget: "string"}
+      - {label: "Background image", name: "backgroundimage", widget: "image"}
+  - name: "login"
+    label: "Login"
+    folder: "content/login"
+    create: false
+    slug: "_index"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Email", name: "email", widget: "string"}
+      - {label: "Email Placeholder", name: "emailplaceholder", widget: "string", default: "Enter email"}
+      - {label: "Password", name: "password", widget: "string"}
+      - {label: "Submit", name: "submit", widget: "string", default: "Login"}
+  - name: "register"
+    label: "Register"
+    folder: "content/register"
+    create: false
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Email address", name: "email", widget: "string"}
+      - {label: "Email placeholder", name: "emailplaceholder", widget: "string"}
+      - {label: "Password", name: "password", widget: "string"}
+      - {label: "Password Confirm Placeholder", name: "passwordconfirmationplaceholder", widget: "string"}
+      - {label: "Confirm Password", name: "passwordconfirm", widget: "string"}
+      - {label: "Submit", name: "submit", widget: "string"}
+  - name: "apis"
+    label: "APIs"
+    folder: "content/apis"
+    create: false
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string", tagname: "h1"}
+      - {label: "Invalidate API key", name: "invalidate_api_key", widget: "string"}
+      - {label: "Request API key", name: "request_api_key", widget: "string"}
+      - {label: "Successfully Invalidated", name: "successfully_invalidated", widget: "string"}
+      - {label: "Successfully Requested", name: "successfully_requested", widget: "string"}
+      - {label: "Your API Key", name: "your_api_key", widget: "string"}
+      - {label: "Requested ok, wait approve", name: "requested_wait_approve", widget: "string"}
+      - {label: "Key for this plan", name: "key_for_this_plan", widget: "string"}
+      - {label: "Key already associated", name: "key_already_associated", widget: "string"}
+      - {label: "Request key", name: "request_key", widget: "string"}
+      - {label: "Request", name: "request", widget: "string"}
+  - name: "links"
+    label: "Home page Links"
+    folder: "content/links"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Date", name: "date", widget: "date"}
+      - {label: "Draft", name: "draft", widget: "boolean"}
+      - {label: "Link", name: "link", widget: "string"}
+      - {label: "Weight", name: "weight", widget: "number", default: 10, min: 2, max: 50}
+      - {label: "Read More button", name: "readmore", widget: "string"}
+  - name: "pages"
+    label: "Pages"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}-page"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Link Text", name: "linktext", widget: "string"}
+      - {label: "Link", name: "link", widget: "string"}
+      - {label: "Read More button", name: "readmore", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}

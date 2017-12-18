@@ -1,0 +1,67 @@
+{{ define "main" }}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+
+
+            <div class="col-md-7 center" id="register-panel">
+                <div class="error-summary collapse">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{.Title}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="" method="POST">
+                            <div class="form-group">
+                                <label for="username">{{.Params.email}}</label>
+                                <input required
+                                       type="email"
+                                       class="form-control"
+                                       id="username"
+                                       name="username"
+                                       placeholder="{{.Params.emailplaceholder}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">{{.Params.password}}</label>
+                                <input minlength="6"
+                                       required
+                                       type="password"
+                                       class="form-control"
+                                       id="password"
+                                       name="password"
+                                       placeholder="Password"
+                                       autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="password_confirm">{{.Params.passwordconfirm}}</label>
+                                <input minlength="6"
+                                       required
+                                       type="password"
+                                       class="form-control"
+                                       id="password_confirm"
+                                       name="password_confirm"
+                                       placeholder="{{.Params.passwordconfirmationplaceholder}}" autocomplete="off">
+                            </div>
+
+
+
+
+                            <input type="submit" class="btn btn-success" value="{{.Params.submit}}">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{ end }}
