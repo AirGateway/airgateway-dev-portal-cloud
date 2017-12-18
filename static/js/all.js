@@ -538,7 +538,7 @@ if ($chatContainer.length) {
         messages.map(function (item) {
             var author;
             if (item.by_user) {
-                author = 'Airline';
+                author = 'AirGateway';
             } else {
                 author = emailForChat;
             }

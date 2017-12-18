@@ -1,5 +1,5 @@
 ---
-title: "Chat with Airline"
+title: "Chat with AirGateway"
 id: "member-chat"
 ---
 
