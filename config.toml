@@ -1,4 +1,4 @@
 baseURL = "/"
 languageCode = "en-us"
-title = "AirGateway Developer Portal"
+title = "AirGateway"
 theme = "bootstrap4"
