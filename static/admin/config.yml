@@ -8,7 +8,7 @@ backend:
     - editor
 
 # Use the Editorial workflow - https://github.com/netlify/netlify-cms/blob/master/docs/editorial_workflow.md
-publish_mode: editorial_workflow
+# publish_mode: editorial_workflow
 
 # Save image uploads to /img/uploads - https://gohugo.io/themes/creation/#static
 media_folder: "images/"

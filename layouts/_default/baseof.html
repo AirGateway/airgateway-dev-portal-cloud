@@ -144,6 +144,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.19.2/js/jquery.fileupload.min.js" integrity="sha256-+J+SpyU2Uhi/tNzykzuKR9dABMiaMuw3x7AsqBzjw2Q=" crossorigin="anonymous"></script>
 
     <script>
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.on("init", user => {
+            if (!user) {
+              window.netlifyIdentity.on("login", () => {
+                document.location.href = "/admin/";
+              });
+            }
+          });
+        }
+      </script>
+
+    <script>
         // the global _ will now be underscore
         window.lodash = _.noConflict();
 
