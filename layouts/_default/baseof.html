@@ -8,7 +8,9 @@
       <!-- schema.org metadata differs for Nodes and Pages -->
     {{ end }}
 
-    <link rel="icon" href="/images/favicon.png">
+    {{ with .Site.GetPage "section" "home" }}
+        <link rel="icon" href="{{.Params.favicon}}">
+    {{ end }}
     <link rel="canonical" href="{{ .Permalink }}">
 
     <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
@@ -38,7 +40,10 @@
   <body>
     <nav class="nav fixed-top blog-nav">
         <div class="container">
-          <a class="navbar-brand" href="{{ .Site.BaseURL | absLangURL }}">{{ .Site.Title }}</a>
+            {{ with .Site.GetPage "section" "home" }}
+                <img height="{{.Params.favicon_height}}" width="{{.Params.favicon_width}}" src="{{.Params.favicon}}" />
+            {{ end }}
+            <a class="navbar-brand" href="{{ .Site.BaseURL | absLangURL }}">{{ .Site.Title }}</a>
 
 
       </div>

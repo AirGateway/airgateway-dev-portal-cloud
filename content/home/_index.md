@@ -1,4 +1,7 @@
 ---
+favicon: /images/favicon.png
+favicon_height: 40
+favicon_width: 40
 menuapidashboard: API Dashboard
 menueditprofile: Edit profile
 menulogout: Log out
