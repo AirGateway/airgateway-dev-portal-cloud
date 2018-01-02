@@ -72,7 +72,7 @@ collections: # A list of collections the CMS should be able to edit
       - {label: "Request key", name: "request_key", widget: "string"}
       - {label: "Request", name: "request", widget: "string"}
   - name: "links"
-    label: "Home page Links"
+    label: "Home page inferior Links"
     folder: "content/links"
     create: true
     slug: "{{slug}}"
