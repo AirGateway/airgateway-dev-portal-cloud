@@ -106,6 +106,13 @@
                 | <a class="nav-link{{ if eq $permalinkURL $currentURL }} active{{ end }}" href="{{ .URL }}">{{ .Params.title }}</a>
             {{ end }}
 
+            {{ range where .Site.Pages "Type" "pages" }}
+                {{ $permalinkURL := .URL | absLangURL }}
+                {{ if isset .Params "title"  }}
+                    | <a class="nav-link {{ if eq $permalinkURL $currentURL }} active{{ end }}" href="{{ .URL }}">{{ .Params.title }}</a>
+                {{ end }}
+            {{ end }}
+
         {{ "<% } %>" | safeHTML }}
 
 
