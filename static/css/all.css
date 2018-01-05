@@ -37,8 +37,9 @@ label.error {
 }
 
 .nav {
-    background: #D52C36;
+    background: black;
     color: white;
+    background: url("/images/stagingheader.png") repeat-x top left;
 }
 
 .nav-link {
