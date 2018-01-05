@@ -24,6 +24,7 @@ a:hover, a:focus, .nav-link:hover, .nav-link:focus {
 
 .container {
     max-width: 80rem;
+    color: white;
 }
 
 .form-control.error {
