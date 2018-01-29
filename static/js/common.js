@@ -1,10 +1,15 @@
 /****************/
 /*    COMMON    */
 /****************/
-String.prototype.toUnderscore = function () {
+
+/*String.prototype.toUnderscore = function () {
     return this.replace(/([A-Z])/g, function ($1) {
         return "_" + $1.toLowerCase();
     });
+};*/
+
+function nl2br(text) {
+    return text.replace(/([^>])\n/g, '$1<br/>');
 };
 
 $.signedAjax = function (data) {
@@ -14,6 +19,7 @@ $.signedAjax = function (data) {
 
     $.ajax(data);
 };
+
 var host = location.host.indexOf('localhost') == -1 ? 'https://hub.airgateway.work/api/' : 'http://localhost:3001';
 var urlMap = {
     login: '/auth/login',
@@ -22,11 +28,20 @@ var urlMap = {
     graph: '',
     profile: '/portal/profile',
     plans: '/portal/plans',
+    planOnboardingInfo: '/portal/plan-onboarding-info',
+    planOnboardingSubmit: '/portal/plan-onboarding-submit',
     requestKey: '/portal/request-key/',
     invalidateKey: '/portal/invalidate-key/',
     requestFields: '/portal/request-key-fields',
-    ndcStats: '/portal/stats/ndc/',
-    requestStats: '/portal/stats/me/',
+    form: '/portal/form',
+    /* messaging */
+    chat: '/portal/chat/',
+    newMessages: '/portal/chat/new-messages',
+    document: '/portal/documents/',
+    /* stats */
+    requestStats: '/portal/stats/request/',
+    breakdownStats: '/portal/stats/breakdown/',
+    meantimeStats: '/portal/stats/meantime/',
     aggregatorStats: '/portal/stats/aggregator/',
     agencyStats: '/portal/stats/agency/',
 };
@@ -34,12 +49,33 @@ var tplInput = underscore.template($('#tpl_input').html());
 var tplMenu = underscore.template($('#tpl_menu').html());
 var tplHiddenInput = underscore.template($('#tpl_hidden_input').html());
 
+
 //initialization
 $(function () {
     //1. render dynamic part of layout template
     $('.nav .container').append(tplMenu());
+
+    //2. check messages count
+
+    if (localStorage.token) {
+        checkNewMessages();
+
+        setInterval(function () {
+            checkNewMessages()
+        }, 1000 * 30);
+    }
 });
 
+function checkNewMessages() {
+    $.signedAjax({
+        url: host + urlMap.newMessages,
+        success: function (response) {
+            if (response.status === 'OK' && parseInt(response.meta) > 0) {
+                $('.chat-counter').html('(' + response.meta + ')')
+            }
+        }
+    });
+}
 
 $summaryErrors = $('.error-summary');
 $successFormPanel = $('.success-form');
@@ -67,157 +103,13 @@ function showFormSuccess() {
 
 }
 
-/*****************/
-/* REGISTER PAGE */
-/*****************/
 
-$registerForm = $('#register-panel').find('form');
-var signupFormValidationSettings = {
-    errorClass: "error",
-    rules: {
-        password_confirm: {
-            equalTo: "#password"
-        }
-    }
-};
-
-$registerForm.validate(signupFormValidationSettings);
-$registerForm.submit(function (e) {
-    e.preventDefault();
-    resetFormErrors();
-
-    $form = $(this);
-    if ($form.valid()) {
-        var data = $(this).serialize();
-
-        $.ajax({
-            method: 'POST',
-            data: data,
-            url: host + urlMap.signup,
-            success: function (response) {
-                if (response.status === 'ERROR') {
-                    showFormErrors(response.error);
-                } else {
-                    localStorage.token = response.meta;
-                    location.href = '/';
-                }
-            }
-        });
-    }
-});
-
-if ($registerForm.length) {
-    $.ajax({
-        url: host + urlMap.fields,
-        success: function (response) {
-            if (response.status === 'OK') {
-                $submitBtn = $registerForm.find('input[type=submit]');
-                for (var i in response.fields) {
-                    var name = lodash.snakeCase(response.fields[i]);
-
-                    $submitBtn.before(tplInput({
-                        name: name,
-                        label: response.fields[i],
-                        value: '',
-                    }));
-                }
-            }
-        }
-    });
-}
-
-
-/**************/
-/* LOGIN PAGE */
-/**************/
-
-
-$loginForm = $('#login-panel').find('form');
-var loginFormValidationSettings = {
-    errorClass: "error",
-};
-
-$loginForm.validate(loginFormValidationSettings);
-$loginForm.submit(function (e) {
-    e.preventDefault();
-    resetFormErrors();
-
-    $form = $(this);
-    if ($form.valid()) {
-        var data = $(this).serialize();
-
-        $.ajax({
-            method: 'POST',
-            data: data,
-            url: host + urlMap.login,
-            success: function (response) {
-                if (response.status === 'ERROR') {
-                    showFormErrors(response.error);
-                } else {
-                    localStorage.token = response.meta;
-                    location.href = '/';
-                }
-            }
-        });
-    }
-});
-
-/**************/
-/* PROFILE PAGE */
-/**************/
-
-
-$profileForm = $('#profile-panel').find('form');
-var profileFormValidationSettings = {
-    errorClass: "error"
-};
-
-$profileForm.validate(profileFormValidationSettings);
-$profileForm.submit(function (e) {
-    e.preventDefault();
-    resetFormErrors();
-
-    $form = $(this);
-    if ($form.valid()) {
-        var data = $(this).serialize();
-
-        $.signedAjax({
-            method: 'POST',
-            data: data,
-            url: host + urlMap.profile,
-            success: function (response) {
-                if (response.status === 'ERROR') {
-                    showFormErrors(response.error);
-                } else {
-                    showFormSuccess();
-                }
-            },
-            error: function (result) {
-                if (result.status == 401) {
-                    $('#logout').click();
-                }
-            }
-        });
-    }
-});
-
-if ($profileForm.length) {
+function openDocument(id) {
     $.signedAjax({
-        url: host + urlMap.profile,
+        url: host + urlMap.document + id,
         success: function (response) {
-            if (response.status === 'OK') {
-                $submitBtn = $profileForm.find('input[type=submit]');
-
-                $('input[name=username]').val(response.data.email);
-                for (var i in response.data.fields) {
-                    var name = lodash.snakeCase(i);
-
-                    $submitBtn.before(tplInput({
-                        name: name,
-                        label: i,
-                        value: response.data.fields[i]
-                    }));
-                }
+            if (response.status == 'OK') {
+                window.open(response.meta, '_blank');
             }
         },
         error: function (result) {
@@ -227,182 +119,6 @@ if ($profileForm.length) {
         }
     });
 }
-
-/******************/
-/*  PLAN LISTING  */
-/******************/
-$planListingPage = $('#plan-panel').length;
-$planContainer = $('.plan-container');
-if ($planListingPage) {
-    var keyRequestFields = [];
-    var tplPlan = underscore.template($('#tpl_plan').html());
-
-    $.signedAjax({
-        url: host + urlMap.requestFields,
-        success: function (response) {
-            if (response.status === 'OK') {
-                keyRequestFields = response.fields;
-            }
-        },
-        error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
-        }
-    });
-
-    $.signedAjax({
-        url: host + urlMap.plans,
-        success: function (response) {
-            for (var i in response.data) {
-                $planContainer.append(tplPlan({
-                    id: response.data[i].id,
-                    name: response.data[i].name,
-                    short_description: response.data[i].short_description,
-                    activated: response.data[i].activated,
-                }))
-            }
-        },
-        error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
-        }
-    });
-}
-
-$(document).on('click', '.planRequest', function (e) {
-    e.preventDefault();
-    $planForm = $('#plan-form');
-    $planForm.prepend(tplHiddenInput({
-        name: 'plan_id',
-        value: $(this).data('plan')
-    }));
-
-    if (keyRequestFields.length) {
-        for (var i in keyRequestFields) {
-            var name = lodash.snakeCase(keyRequestFields[i]);
-            if (!$planForm.find('[name="' + name + '"]').length) {
-                $planForm.prepend(tplInput({
-                    name: name,
-                    label: keyRequestFields[i],
-                    value: ''
-                }));
-                $planForm.find('[name="' + name + '"]').attr('required', true);
-            }
-        }
-
-        $('#plan-panel').removeClass('in');
-        $('#plan-form-panel').addClass('in');
-    } else {
-        $planForm.submit();
-    }
-});
-
-$(document).on('click', '.invalidateKey', function (e) {
-    e.preventDefault();
-
-    $.signedAjax({
-        method: 'POST',
-        url: host + urlMap.invalidateKey + $(this).data('plan'),
-        success: function (response) {
-            if (response.status === 'OK_INVALIDATED') {
-                $('#plan-result').addClass('in');
-                $('#plan-panel').removeClass('in');
-                $('.ok-invalidated').addClass('in');
-            }
-        },
-        error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
-        }
-    });
-});
-
-$(document).on('submit', '#plan-form', function (e) {
-    e.preventDefault();
-    $('#plan-panel').removeClass('in');
-    sendKeyRequest($(this));
-});
-
-function sendKeyRequest($form) {
-    var showErrorExistResult = function () {
-        $('.error-exist').addClass('in');
-    };
-    var showRequestKeyResult = function () {
-        $('.ok-requested').addClass('in');
-    };
-    var showApprovedKeyResult = function (token) {
-        $('.ok-approved').addClass('in');
-        $('.ok-approved-key').html(token);
-    };
-
-    $.signedAjax({
-        method: 'POST',
-        data: $form.serialize(),
-        url: host + urlMap.requestKey + $form.find('[name="plan_id"]').val(),
-        success: function (response) {
-            $('#plan-result').addClass('in');
-            $('#plan-form-panel').removeClass('in');
-
-            if (response.status === 'OK_APPROVED') {
-                showApprovedKeyResult(response.meta);
-            } else if (response.status === 'OK_REQUESTED') {
-                showRequestKeyResult();
-            }
-        },
-        error: function (response) {
-            $('#plan-result').addClass('in');
-            $('#plan-form-panel').removeClass('in');
-            if (response.responseJSON.status === 'ERROR_EXIST') {
-                showErrorExistResult();
-            }
-        }
-    });
-}
-
-
-$dashboardContainer = $('#dashboard-panel');
-
-if ($dashboardContainer.length) {
-    var tplDashboardPlan = underscore.template($('#tpl_dashboard_plan').html());
-
-    $.signedAjax({
-        url: host + urlMap.plans,
-        success: function (response) {
-            for (var i in response.data) {
-                if (response.data[i].activated) {
-                    $dashboardContainer.append(tplDashboardPlan({
-                        id: response.data[i].id,
-                        name: response.data[i].name,
-                        short_description: response.data[i].short_description,
-                        rate: response.data[i].rate,
-                        per: response.data[i].per,
-                        quota_max: response.data[i].quota_max,
-                        quota_renewal_rate: response.data[i].quota_renewal_rate,
-                    }));
-
-
-                    generateChartForKey(response.data[i].id, response.data[i].id, true);
-                    generateChartForKey(response.data[i].id, response.data[i].id + "-method-breakdown-canvas", false);
-                    generatePieChartForKey(response.data[i].id, response.data[i].id + "-method-breakdown-pie-canvas");
-                    generateChartForParticipants(response.data[i].id, response.data[i].id + "-aggregator", true);
-                    generateChartForParticipants(response.data[i].id, response.data[i].id + "-agency", false);
-                }
-            }
-        },
-        error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
-        }
-    });
-}
-
-
-//1. open page /apis/ - call /portal/request-key-fields
-//2.
 
 /******************/
 /* OTHER HANDLERS */
@@ -503,7 +219,7 @@ var typesOfRequests = [
 ];
 
 
-var generateChartForKey = function (planID, canvasId, showRequests) {
+var generateChartForKey = function (planID, canvasID, showRequests) {
     var now = new Date();
     now.setDate(now.getDate() + 1);
     var fixedNowMonth = now.getMonth() + 1;
@@ -513,7 +229,7 @@ var generateChartForKey = function (planID, canvasId, showRequests) {
     var fixedThenMonth = then.getMonth() + 1;
 
 
-    var url = urlMap.ndcStats + planID;
+    var url = urlMap.breakdownStats + planID;
 
     if (showRequests) {
         url = urlMap.requestStats + planID;
@@ -529,7 +245,7 @@ var generateChartForKey = function (planID, canvasId, showRequests) {
             var cData = {
                 labels: [],
                 datasets: [
-                    getDataSet('Requests', baseColor, 47, highlightColor),
+                    getDataSet('Success', baseColor, 47, highlightColor),
                     getDataSet('Errors', baseColor, 30, highlightColor),
                     getDataSet('AirShopping', baseColor, 10, highlightColor),
                     getDataSet('FlightPrice', baseColor, 70, highlightColor),
@@ -548,16 +264,18 @@ var generateChartForKey = function (planID, canvasId, showRequests) {
             var jsonData = data;
             var noData = true;
             var sortMe = [];
+
             for (var i in jsonData.data) {
                 var thisDate = new Date(jsonData.data[i].id.time);
                 var l = thisDate.getHours() + ':00';
-                var hits = jsonData.data[i].hits;
+                var success = jsonData.data[i].success;
                 var errors = jsonData.data[i].error;
+                var hits = jsonData.data[i].hits;
 
                 var obj = {
                     d: thisDate,
                     label: l,
-                    hits: hits,
+                    success: success,
                     errors: errors
                 };
 
@@ -574,7 +292,7 @@ var generateChartForKey = function (planID, canvasId, showRequests) {
                     var obj = {
                         d: thisDate,
                         label: l,
-                        hits: hits,
+                        success: success,
                         errors: errors,
                         airShoppingRQs: airShoppingRQs,
                         flightPriceRQs: flightPriceRQs,
@@ -609,18 +327,18 @@ var generateChartForKey = function (planID, canvasId, showRequests) {
             } else {
                 for (var i in fixedData) {
                     cData.labels.push(fixedData[i].label);
-                    cData.datasets[0].data.push(fixedData[i].hits);
+                    cData.datasets[0].data.push(fixedData[i].success);
                     cData.datasets[1].data.push(fixedData[i].errors)
                 }
             }
 
             if (noData == true) {
-                var ctx = $("#" + canvasId).get(0).getContext("2d");
+                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 ctx.font = '20px Lato';
                 ctx.textAlign = 'center';
                 ctx.fillText('No Available Data', 400, 100);
             } else {
-                var ctx = $("#" + canvasId).get(0).getContext("2d");
+                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 var myNewChart = new Chart(ctx).Line(cData, chartOptions);
             }
         },
@@ -632,7 +350,7 @@ var generateChartForKey = function (planID, canvasId, showRequests) {
     });
 };
 
-var generatePieChartForKey = function (keyId, canvasId) {
+var generatePieChartForKey = function (planID, canvasID) {
     var now = new Date();
     now.setDate(now.getDate() + 1);
     var fixedNowMonth = now.getMonth() + 1;
@@ -641,7 +359,7 @@ var generatePieChartForKey = function (keyId, canvasId) {
     then.setDate(then.getDate() - 7);
     var fixedThenMonth = then.getMonth() + 1;
 
-    var url = urlMap.ndcStats + keyId;
+    var url = urlMap.breakdownStats + planID;
     $.signedAjax({
         url: host + url,
         success: function (data) {
@@ -679,7 +397,7 @@ var generatePieChartForKey = function (keyId, canvasId) {
             }
 
             if (noData) {
-                var ctx = $("#" + canvasId).get(0).getContext("2d");
+                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 ctx.font = "20px Lato";
                 ctx.textAlign = "center";
                 ctx.fillText("No Available Data", 400, 100);
@@ -735,7 +453,7 @@ var generatePieChartForKey = function (keyId, canvasId) {
                     }
                 ];
 
-                var ctx = $("#" + canvasId).get(0).getContext("2d");
+                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 var pieChart = new Chart(ctx).Doughnut(pieData);
             }
         },
@@ -746,8 +464,115 @@ var generatePieChartForKey = function (keyId, canvasId) {
         }
     })
 };
+
+
+var generateMeanResponseTimeChart = function (planID, canvasID) {
+    var url = urlMap.meantimeStats + planID;
+    $.signedAjax({
+        url: host + url,
+        success: function (response) {
+            var highlightColor = '#fff';
+            var baseColor = '217, 100%, '; //#00245D
+
+            var cData = {
+                labels: [],
+                datasets: [
+                    getDataSet('Requests', baseColor, 47, highlightColor),
+                    getDataSet('Errors', baseColor, 30, highlightColor),
+                    getDataSet('AirShopping', baseColor, 10, highlightColor),
+                    getDataSet('FlightPrice', baseColor, 70, highlightColor),
+                    getDataSet('SeatAvailability', baseColor, 80, highlightColor),
+                    getDataSet('BaggageAllowance', baseColor, 40, highlightColor),
+                    getDataSet('ItinReshop', baseColor, 30, highlightColor),
+                    getDataSet('OrderCreate', baseColor, 50, highlightColor),
+                    getDataSet('OrderCancel', baseColor, 0, highlightColor),
+                    getDataSet('OrderRetrieve', baseColor, 5, highlightColor),
+                    getDataSet('Other', baseColor, 90, highlightColor)
+                ]
+            };
+
+
+            var sortMe = [];
+            var noData = false;
+
+            if (response.data == null) {
+                noData = true;
+            } else {
+                noData = true;
+                for (var i in response.data) {
+                    var thisDate = new Date(response.data[i].id.time);
+                    var l = thisDate.getHours() + ':00';
+                    var hits = response.data[i].hits;
+                    var errors = response.data[i].error;
+
+                    var obj;
+
+                    any = {
+                        d: thisDate,
+                        label: l
+                    };
+
+                    var airShoppingRQs = response.data[i].AirShoppingRQ || 0;
+                    var flightPriceRQs = response.data[i].FlightPriceRQ || 0;
+                    var seatAvailabilityRQs = response.data[i].SeatAvailabilityRQ || 0;
+                    var baggageAllowanceRQs = response.data[i].BaggageAllowanceRQ || 0;
+                    var itinReshopRQs = response.data[i].ItinReshopRQ || 0;
+                    var orderCreateRQs = response.data[i].OrderCreateRQ || 0;
+                    var orderCancelRQs = response.data[i].OrderCancelRQ || 0;
+                    var orderRetrieveRQs = response.data[i].OrderRetrieveRQ || 0;
+
+                    obj = {
+                        d: thisDate,
+                        label: l,
+                        airShoppingRQs: airShoppingRQs,
+                        flightPriceRQs: flightPriceRQs,
+                        seatAvailabilityRQs: seatAvailabilityRQs,
+                        baggageAllowanceRQs: baggageAllowanceRQs,
+                        itinReshopRQs: itinReshopRQs,
+                        orderCreateRQs: orderCreateRQs,
+                        orderCancelRQs: orderCancelRQs,
+                        orderRetrieveRQs: orderRetrieveRQs
+                    };
+
+                    if (airShoppingRQs || flightPriceRQs || seatAvailabilityRQs || baggageAllowanceRQs || itinReshopRQs || orderCreateRQs || orderCancelRQs || orderRetrieveRQs) {
+                        noData = false;
+                    }
+
+
+                    sortMe.push(obj)
+                }
+            }
+
+            var fixedData = sortByKey(sortMe, 'd');
+
+            for (var i in fixedData) {
+                cData.labels.push(fixedData[i].label);
+                cData.datasets[2].data.push(fixedData[i].airShoppingRQs);
+                cData.datasets[3].data.push(fixedData[i].flightPriceRQs);
+                cData.datasets[4].data.push(fixedData[i].seatAvailabilityRQs);
+                cData.datasets[5].data.push(fixedData[i].baggageAllowanceRQs);
+                cData.datasets[6].data.push(fixedData[i].itinReshopRQs);
+                cData.datasets[7].data.push(fixedData[i].orderCreateRQs);
+                cData.datasets[8].data.push(fixedData[i].orderCancelRQs);
+                cData.datasets[9].data.push(fixedData[i].orderRetrieveRQs)
+            }
+
+            var ctx = $("#" + canvasID).get(0).getContext("2d");
+
+            if (noData == true) {
+                ctx.font = '20px Lato';
+                ctx.textAlign = 'center';
+                ctx.fillText('No Available Data', 400, 100);
+            } else {
+                var myNewChart = new Chart(ctx).Line(cData, chartOptions);
+            }
+        }
+    });
+}
+
 var colors = [47, 30, 10, 70, 80, 30, 50, 0, 5, 90];
-var generateChartForParticipants = function (keyId, canvasId, isAggregator) {
+
+/*var generateChartForParticipants = function (keyId, canvasID, isAggregator) {
     var now = new Date();
     now.setDate(now.getDate() + 1);
     var fixedNowMonth = now.getMonth() + 1;
@@ -840,12 +665,12 @@ var generateChartForParticipants = function (keyId, canvasId, isAggregator) {
                 }
             }
             if (noData == true) {
-                var ctx = $("#" + canvasId).get(0).getContext("2d");
+                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 ctx.font = '20px Lato';
                 ctx.textAlign = 'center';
                 ctx.fillText('No Available Data', 400, 100);
             } else {
-                var ctx = $("#" + canvasId).get(0).getContext("2d");
+                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 var myNewChart = new Chart(ctx).Line(cData, chartOptions);
             }
 
@@ -861,9 +686,9 @@ var agencyElements = [];
 
 function reloadSelects(keyId, isAggregator) {
     var select = $('.' + keyId + (isAggregator ? '-aggregatorSelect' : '-agencySelect'));
-    elements = isAggregator ?  aggregatorElements[keyId] : agencyElements[keyId];
+    elements = isAggregator ? aggregatorElements[keyId] : agencyElements[keyId];
     for (var i in elements) {
-        select.append('<option value="'+elements[i]+'">'+elements[i]+'</option>')
+        select.append('<option value="' + elements[i] + '">' + elements[i] + '</option>')
     }
 
 }
@@ -872,7 +697,7 @@ function reloadAggregatorChart(keyId, value) {
     var data = JSON.parse(JSON.stringify(chartDataAggregator[keyId]));
     if (value) {
         var newDatasets = [];
-        for(var i in data.datasets) {
+        for (var i in data.datasets) {
             if (data.datasets[i].label == value) {
                 newDatasets = [data.datasets[i]];
                 break;
@@ -889,7 +714,7 @@ function reloadAgencyChart(keyId, value) {
     var data = JSON.parse(JSON.stringify(chartDataAgency[keyId]));
     if (value) {
         var newDatasets = [];
-        for(var i in data.datasets) {
+        for (var i in data.datasets) {
             if (data.datasets[i].label == value) {
                 newDatasets = [data.datasets[i]];
                 break;
@@ -900,7 +725,4 @@ function reloadAgencyChart(keyId, value) {
 
     var ctx = $("#" + keyId + '-agency').get(0).getContext("2d");
     var myNewChart = new Chart(ctx).Line(data, chartOptions);
-}
-
-
-
+}*/
