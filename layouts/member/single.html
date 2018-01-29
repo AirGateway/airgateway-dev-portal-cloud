@@ -15,6 +15,14 @@
                 {{ if eq .Params.id "member-chat" }}
                 {{ .Render "chat" }}
                 {{ end }}
+
+                {{ if eq .Params.id "member-form" }}
+                {{ .Render "form" }}
+                {{ end }}
+
+                {{ if eq .Params.id "member-onboarding" }}
+                {{ .Render "onboarding" }}
+                {{ end }}
             </div>
         </div>
     </div>
