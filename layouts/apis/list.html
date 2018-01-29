@@ -4,7 +4,9 @@
         <div class="col-lg-12">
 
             <h1>{{ .Title }}</h1>
+            <div class="row planMessage-container">
 
+            </div>
             <div class="row plan-container">
 
             </div>
@@ -44,6 +46,16 @@
                     {{.Params.key_already_associated}}
                 </p>
             </div>
+            <div class="error-access collapse">
+                <div class="panel panel-danger">
+                    <div class="panel-body">
+                        You don't have permissions to request this plan
+                    </div>
+                </div>
+                <p>
+                    It appears when manager didn't accept you to request this plan. Please perform actions described in chat with airline to proceed further.
+                </p>
+            </div>
             <div class="ok-requested collapse">
                 <div class="panel panel-success">
                     <div class="panel-body">
@@ -76,17 +88,20 @@
         <p></p>
         <p>{{ "<%- short_description %>" | safeHTML }}</p>
         <p></p>
-        {{ "<% if (activated) { %>" | safeHTML }}
-        <a href="/member/invalidate-key/<%- id %>" class="btn btn-danger btn-block invalidateKey" data-plan="<%- id %>">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp; {{.Params.invalidate_api_key}}
-        </a>
-        {{ "<% } else { %>" | safeHTML }}
-        <a href="/member/plan-request/<%- id %>" class="btn btn-success btn-block planRequest" data-plan="<%- id %>">
+        {{ "<% if (status == 'new') { %>" | safeHTML }}
+        <a href="#" class="btn btn-success btn-block planRequest" data-plan="<%- id %>">
             <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp; {{.Params.request_api_key}}
         </a>
+        {{ "<% } else if (status == 'active') { %>" | safeHTML }}
+        <a href="#" class="btn btn-danger btn-block invalidateKey" data-plan="<%- id %>">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp; {{.Params.invalidate_api_key}}
+        </a>
+        {{ "<% } else if (status == 'disallowed') { %>" | safeHTML }}
+        <a href="/member/onboarding?id=<%- id %>" class="btn btn-success btn-block disallowed">
+            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp; {{.Params.need_enroll_for_api_key}}
+        </a>
         {{ "<% } %>" | safeHTML }}
-
     </div>
 </script>
-{{ end }}
 
+{{ end }}
