@@ -1,5 +1,5 @@
 ---
-title: "Signup Form"
+title: "Register"
 email: "Email address"
 emailplaceholder: "Enter email"
 password: "Password"
