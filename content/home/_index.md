@@ -1,7 +1,7 @@
 ---
 favicon: /images/airgateway.png
-favicon_width: '45'
-favicon_height: '45'
+favicon_width: '40'
+favicon_height: '40'
 menuapidashboard: API Dashboard
 menueditprofile: Edit profile
 menulogout: Log out
