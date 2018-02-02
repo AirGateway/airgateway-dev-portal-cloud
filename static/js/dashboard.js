@@ -14,10 +14,8 @@ if ($dashboardContainer.length) {
         url: host + urlMap.plans,
         success: function (response) {
             for (var i in response.data) {
-                if (response.data[i].activated) {
+                if (response.data[i].status == 'active') {
                     plans.push(response.data[i]);
-
-
                 }
             }
 
@@ -34,7 +32,7 @@ if ($dashboardContainer.length) {
         if (plans.length) {
             $dashboardContainer.prepend(tplDashboardPlanSelect({
                 plans: plans
-            }))
+            }));
 
             showPlan(plans[0].id);
         }
@@ -43,7 +41,6 @@ if ($dashboardContainer.length) {
     function showPlan(planID) {
         for (var i in plans) {
             if (plans[i].id === planID) {
-
                 $dashboardInnerContainer.html(tplDashboardPlan({
                     id: plans[i].id,
                     name: plans[i].name,
@@ -51,7 +48,10 @@ if ($dashboardContainer.length) {
                     rate: plans[i].rate,
                     per: plans[i].per,
                     quota_max: plans[i].quota_max,
-                    quota_renewal_rate: plans[i].quota_renewal_rate
+                    quota_renewal_rate: plans[i].quota_renewal_rate,
+                    url: plans[i].url,
+                    auth_header: plans[i].auth_header,
+                    key: plans[i].key
                 }));
 
 

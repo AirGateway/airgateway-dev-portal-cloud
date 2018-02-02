@@ -11,7 +11,7 @@ footer {
 }
 
 a {
-    color: #D52C36;
+    color: #CD0000;
 }
 
 a:hover, a:focus, .nav-link:hover, .nav-link:focus {
@@ -27,13 +27,13 @@ a:hover, a:focus, .nav-link:hover, .nav-link:focus {
 }
 
 .form-control.error {
-    border-color: #D52C36;
+    border-color: #CD0000;
 }
 
 label.error {
     font-size: 0.8rem;
     font-weight: normal;
-    color: #D52C36;
+    color: #CD0000;
 }
 
 .nav {
@@ -159,7 +159,7 @@ label.error {
 }
 
 .colors {
-    background-color: #D52C36;
+    background-color: #CD0000;
     color: #fcd100;
 }
 
@@ -195,7 +195,7 @@ hr {
     font-family: inherit;
     font-weight: 500;
     line-height: 1.1;
-    color: #D52C36;
+    color: #CD0000;
     margin-top: 20px;
     margin-bottom: 10px;
 }
@@ -426,26 +426,26 @@ hr {
 }
 
 .panel-danger {
-    border-color: #D52C36
+    border-color: #CD0000
 }
 
 .panel-danger > .panel-heading {
     color: #fff;
-    background-color: #D52C36;
-    border-color: #D52C36
+    background-color: #CD0000;
+    border-color: #CD0000
 }
 
 .panel-danger > .panel-heading + .panel-collapse > .panel-body {
-    border-top-color: #D52C36
+    border-top-color: #CD0000
 }
 
 .panel-danger > .panel-heading .badge {
-    color: #D52C36;
+    color: #CD0000;
     background-color: #fff
 }
 
 .panel-danger > .panel-footer + .panel-collapse > .panel-body {
-    border-bottom-color: #D52C36
+    border-bottom-color: #CD0000
 }
 
 dt, kbd kbd, label {
