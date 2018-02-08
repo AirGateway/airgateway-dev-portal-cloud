@@ -32,10 +32,6 @@
       </div>
       {{ "<% } %>" | safeHTML }}
 
-      {{ "<% if (userApproved) { %>"}}
-        <p><b>Your account is already approved</b></p>
-      {{ " <% } else { | safeHTML %>" }}
-
 
       <p><b>You're in step {{ "<%= current %>" | safeHTML }} out of {{ "<%= total %>" | safeHTML }}</b><br>
         Please complete following actions to get more access: <br>
@@ -62,7 +58,6 @@
       {{ "<% } %>" | safeHTML }}
     </div>
   </div>
-  {{ "<% } %>" | safeHTML }}
 </script>
 
 <script id="tpl_onboarding_files" type="text/html">

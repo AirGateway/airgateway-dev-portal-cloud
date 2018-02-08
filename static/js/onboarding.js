@@ -61,7 +61,6 @@ if ($onboardingPanel.length) {
                 actions: actions,
                 isDocumentNeeded: isDocumentNeeded,
                 documents: response.documents,
-                userApproved: (current == total),
             }));
 
             $('.bs-wizard-wrap').scrollLeft(100 * (response.current_state_number-1));
