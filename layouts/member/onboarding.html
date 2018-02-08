@@ -34,7 +34,7 @@
 
       {{ "<% if (userApproved) { %>" | safeHTML }}
         <p><b>Your account is already approved</b></p>
-      {{ " <% }  %>" | safeHTML }}
+      {{ " <% } else {  %>" | safeHTML }}
 
 
       <p><b>You're in step {{ "<%= current %>" | safeHTML }} out of {{ "<%= total %>" | safeHTML }}</b><br>
@@ -61,6 +61,7 @@
         <input style="display:none" id="fileupload" type="file" multiple/><br/>
       {{ "<% } %>" | safeHTML }}
     </div>
+    {{ "<% } %>" | safeHTML }}
   </div>
 
 </script>
