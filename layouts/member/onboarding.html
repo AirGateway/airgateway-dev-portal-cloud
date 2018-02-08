@@ -3,12 +3,15 @@
 <div class="row" id="onboarding-panel">
   <div class="col-lg-12 onboarding-container"></div>
   <div class="col-lg-12 onboarding-docs-container"></div>
+
+  {{ "<% if !(userApproved) { %>" | safeHTML }}
   <div class="col-lg-12">
     <div class="btn btn-primary pull-right" onclick="submitOnboarding()">Submit Data</div>
     <div class="hide resultMessage">
       <p><b>Our managers will review your submitted data and approve you further. Otherwise we will contact you by email or airline chat.</b></p>
     </div>
   </div>
+  {{ "<% } %>" | safeHTML }}
 </div>
 
 
