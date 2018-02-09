@@ -41,7 +41,7 @@ if ($onboardingPanel.length) {
             for (var i in response.forms) {
                 var action = response.actions[response.forms[i].action_id];
                 if (action) {
-                    actions.push(counter + ') Please complete "<a href="/member/form/?id=' + response.forms[i].id + '&planID='+ id +'">' + action.form_title + '</a>" form' + (response.forms[i].status ? ' (done)' : ''));
+                    actions.push(counter + ') Please complete "<a href="/member/form/?id=' + response.forms[i].id + '&planID=' + id + '">' + action.form_title + '</a>" form' + (response.forms[i].status ? ' (done)' : ''));
                     counter++;
                 }
             }
@@ -54,6 +54,9 @@ if ($onboardingPanel.length) {
                     counter++;
                 }
             }
+
+            var userApproved = (response.current_state_number == response.total_state_number)
+
             $onboardingContainer.html(tplOnboarding({
                 states: response.states,
                 current: response.current_state_number,
@@ -61,10 +64,10 @@ if ($onboardingPanel.length) {
                 actions: actions,
                 isDocumentNeeded: isDocumentNeeded,
                 documents: response.documents,
-                userApproved: (current == total),
+                userApproved: userApproved,
             }));
 
-            $('.bs-wizard-wrap').scrollLeft(100 * (response.current_state_number-1));
+            $('.bs-wizard-wrap').scrollLeft(100 * (response.current_state_number - 1));
 
             $('#fileupload').fileupload({
                 url: host + urlMap.document + 'plan/' + id,
@@ -94,6 +97,11 @@ if ($onboardingPanel.length) {
             });
 
             loadDocumentList();
+
+            if (userApproved) {
+                $('.submitDataBtn').addClass('hide');
+                $('.goToAPIBtn').removeClass('hide');
+            }
         },
         error: function (result) {
             if (result.status == 401) {
@@ -121,7 +129,7 @@ if ($onboardingPanel.length) {
     }
 
     function removeItemFromQueue(i) {
-        onboardingFiles.splice(i,1);
+        onboardingFiles.splice(i, 1);
         renderChatFiles();
     }
 
@@ -164,7 +172,7 @@ if ($onboardingPanel.length) {
     function submitOnboarding() {
         $.signedAjax({
             method: 'POST',
-            url: host + urlMap.planOnboardingSubmit + '/' + id ,
+            url: host + urlMap.planOnboardingSubmit + '/' + id,
             success: function (response) {
                 if (response.status == 'OK') {
                     $('.resultMessage').removeClass("hide")
