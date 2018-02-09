@@ -97,6 +97,11 @@ if ($onboardingPanel.length) {
             });
 
             loadDocumentList();
+
+            if (userApproved) {
+                $('.submitDataBtn').addClass('hide');
+                $('.goToAPIBtn').removeClass('hide');
+            }
         },
         error: function (result) {
             if (result.status == 401) {
