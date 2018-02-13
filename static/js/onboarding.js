@@ -41,7 +41,7 @@ if ($onboardingPanel.length) {
             for (var i in response.forms) {
                 var action = response.actions[response.forms[i].action_id];
                 if (action) {
-                    actions.push(counter + ') Please complete "<a href="/member/form/?id=' + response.forms[i].id + '&planID='+ id +'">' + action.form_title + '</a>" form' + (response.forms[i].status ? ' (done)' : ''));
+                    actions.push(counter + ') Please complete "<a href="/member/form/?id=' + response.forms[i].id + '&planID=' + id + '">' + action.form_title + '</a>" form' + (response.forms[i].status ? ' (done)' : ''));
                     counter++;
                 }
             }
@@ -67,7 +67,7 @@ if ($onboardingPanel.length) {
                 userApproved: userApproved,
             }));
 
-            $('.bs-wizard-wrap').scrollLeft(100 * (response.current_state_number-1));
+            $('.bs-wizard-wrap').scrollLeft(100 * (response.current_state_number - 1));
 
             $('#fileupload').fileupload({
                 url: host + urlMap.document + 'plan/' + id,
@@ -129,7 +129,7 @@ if ($onboardingPanel.length) {
     }
 
     function removeItemFromQueue(i) {
-        onboardingFiles.splice(i,1);
+        onboardingFiles.splice(i, 1);
         renderChatFiles();
     }
 
@@ -172,7 +172,7 @@ if ($onboardingPanel.length) {
     function submitOnboarding() {
         $.signedAjax({
             method: 'POST',
-            url: host + urlMap.planOnboardingSubmit + '/' + id ,
+            url: host + urlMap.planOnboardingSubmit + '/' + id,
             success: function (response) {
                 if (response.status == 'OK') {
                     $('.resultMessage').removeClass("hide")

@@ -37,29 +37,29 @@
         <p><b>Your account is already approved</b></p>
       {{ " <% } else {  %>" | safeHTML }}
 
-
-      <p><b>You're in step {{ "<%= current %>" | safeHTML }} out of {{ "<%= total %>" | safeHTML }}</b><br>
-        Please complete following actions to get more access: <br>
-        {{ "<% for(var i in actions) { %>" | safeHTML }}
-        {{ "<%= actions[i] %>" | safeHTML }}<br>
-        {{ "<% } %>" | safeHTML }}
-      </p>
-      {{ "<% if (documents.length) { %>" | safeHTML }}
-        <p>Documents for download: </p>
-        <ul>
-          {{ "<% for(var j in documents) { %>" | safeHTML }}
-          <li><a href="#" onclick="openDocument('<%= documents[j].id %>')"> {{ "<%= documents[j].name %>" | safeHTML }}</a></li>
+        <p><b>You're in step {{ "<%= current %>" | safeHTML }} out of {{ "<%= total %>" | safeHTML }}</b><br>
+          Please complete following actions to get more access: <br>
+          {{ "<% for(var i in actions) { %>" | safeHTML }}
+          {{ "<%= actions[i] %>" | safeHTML }}<br>
           {{ "<% } %>" | safeHTML }}
-        </ul>
-      {{ "<% } %>" | safeHTML }}
+        </p>
+        {{ "<% if (documents.length) { %>" | safeHTML }}
+          <p>Documents for download: </p>
+          <ul>
+            {{ "<% for(var j in documents) { %>" | safeHTML }}
+            <li><a href="#" onclick="openDocument('<%= documents[j].id %>')"> {{ "<%= documents[j].name %>" | safeHTML }}</a></li>
+            {{ "<% } %>" | safeHTML }}
+          </ul>
+        {{ "<% } %>" | safeHTML }}
 
-      {{ "<% if (isDocumentNeeded) { %>" | safeHTML }}
-        <div id="fileitem-queue">
+        {{ "<% if (isDocumentNeeded) { %>" | safeHTML }}
+          <div id="fileitem-queue">
 
-        </div>
-        <div class="btn btn-success" onclick="$('#fileupload').click()">Add File</div>
-        <div class="btn btn-primary uploadBtn hide" onclick="uploadQueuedFiles()">Upload</div>
-        <input style="display:none" id="fileupload" type="file" multiple/><br/>
+          </div>
+          <div class="btn btn-success" onclick="$('#fileupload').click()">Add File</div>
+          <div class="btn btn-primary uploadBtn hide" onclick="uploadQueuedFiles()">Upload</div>
+          <input style="display:none" id="fileupload" type="file" multiple/><br/>
+        {{ "<% } %>" | safeHTML }}
       {{ "<% } %>" | safeHTML }}
     </div>
     {{ "<% } %>" | safeHTML }}
