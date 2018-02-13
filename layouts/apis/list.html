@@ -94,8 +94,8 @@
         </div>
         {{ "<% if (key != '') { %>" | safeHTML }}
         <div class="col-md-12">
+            <h3>How To Use</h3>
             <div class="col-md-6">
-                <h3>How To Use</h3>
                 <strong>Plan Settings:</strong>
                 <ul>
                     <li><strong>URL</strong>: {{ "<%- url %>" | safeHTML }} </li>
@@ -110,7 +110,6 @@
                     <li><strong>Quota</strong>: {{ "<%- quota_max %>" | safeHTML }} requests renews every {{ "<%- quota_renewal_rate %>" | safeHTML }} seconds</li>
                 </ul>
             </div>
-        </div>
         {{ "<% } %>" | safeHTML }}
         <p></p>
         {{ "<% if (status == 'new') { %>" | safeHTML }}
