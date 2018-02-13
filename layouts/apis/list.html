@@ -88,7 +88,7 @@
             <h2>{{ "<%- name %>" | safeHTML }}</h2>
             <p></p>
             <p>{{ "<%- short_description %>" | safeHTML }}</p>
-        <div>
+        </div>
         <div class="col-md-6">
             <div>{{ "<%= long_description %>" | safeHTML }}</div>
         </div>
@@ -110,21 +110,22 @@
                     <li><strong>Quota</strong>: {{ "<%- quota_max %>" | safeHTML }} requests renews every {{ "<%- quota_renewal_rate %>" | safeHTML }} seconds</li>
                 </ul>
             </div>
-        {{ "<% } %>" | safeHTML }}
-        <p></p>
-        {{ "<% if (status == 'new') { %>" | safeHTML }}
-        <a href="#" class="btn btn-success btn-block planRequest" data-plan="<%- id %>">
-            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp; {{.Params.request_api_key}}
-        </a>
-        {{ "<% } else if (status == 'active') { %>" | safeHTML }}
-        <a href="#" class="btn btn-danger btn-block invalidateKey" data-plan="<%- id %>">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp; {{.Params.invalidate_api_key}}
-        </a>
-        {{ "<% } else if (status == 'disallowed') { %>" | safeHTML }}
-        <a href="/member/onboarding?id=<%- id %>" class="btn btn-success btn-block disallowed">
-            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp; {{.Params.need_enroll_for_api_key}}
-        </a>
-        {{ "<% } %>" | safeHTML }}
+            {{ "<% } %>" | safeHTML }}
+            <p></p>
+            {{ "<% if (status == 'new') { %>" | safeHTML }}
+            <a href="#" class="btn btn-success btn-block planRequest" data-plan="<%- id %>">
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp; {{.Params.request_api_key}}
+            </a>
+            {{ "<% } else if (status == 'active') { %>" | safeHTML }}
+            <a href="#" class="btn btn-danger btn-block invalidateKey" data-plan="<%- id %>">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp; {{.Params.invalidate_api_key}}
+            </a>
+            {{ "<% } else if (status == 'disallowed') { %>" | safeHTML }}
+            <a href="/member/onboarding?id=<%- id %>" class="btn btn-success btn-block disallowed">
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp; {{.Params.need_enroll_for_api_key}}
+            </a>
+            {{ "<% } %>" | safeHTML }}
+        </div>
     </div>
 </script>
 
