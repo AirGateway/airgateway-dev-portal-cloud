@@ -4,11 +4,26 @@
     <div class="container">
 
             <h1 id="jumbo-title"> {{.Params.jumbotitle}} </h1>
-
+            <p id="jumbo-cta">
+                <a class="btn btn-primary btn-lg" href="/apis" role="button"> {{.Params.viewapis}} </a>
+            </p>
     </div>
 </div>
 {{ end }}
-
+<div class="container">
+    <div class="row">
+        {{ range where .Data.Pages.ByWeight "Type" "links" }}
+        <div class="col-md-4">
+            <h2>{{ .Title }}</h2>
+            <p>{{ .Description }}</p>
+            <p>
+                <a class="btn btn-default" href="{{ .Params.link }}" role="button">{{.Params.readmore}}</a>
+            </p>
+        </div>
+        {{ end }}
+    </div>
+</div> {{ "<!-- /.container -->" | safeHTML }}
+<hr>
 
 <script>
     if (window.netlifyIdentity) {

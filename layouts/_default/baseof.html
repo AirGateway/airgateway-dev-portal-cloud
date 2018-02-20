@@ -64,7 +64,50 @@
     </div>
     {{end}}
 
+    <script id="tpl_menu" type="text/html">
+        {{ $currentURL := .URL | absLangURL }}
+        {{ "<% if (localStorage.token) { %>" | safeHTML }}
+            <div class="float-right dropdown">
+                {{ with .Site.GetPage "section" "home" }}
+                <a href="#" class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{.Params.account}}
+                </a>
+                <div class= "dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/member/dashboard/">{{.Params.menuapidashboard}}</a>
+                    <a class="dropdown-item" href="/member/profile/">{{.Params.menueditprofile}}</a>
+                  <div class="dropdown-divider"></div>
+                    <a id="logout" class="dropdown-item" href="#">{{.Params.menulogout}}</a>
+                </div>
+                {{end}}
+            </div>
 
+            {{ with .Site.GetPage "section" "apis" }}
+                {{ $permalinkURL := .URL | absLangURL }}
+                | <a class="nav-link{{ if eq $permalinkURL $currentURL }} active{{ end }}" href="{{ .URL }}">{{ .Params.title }}</a>
+            {{end}}
+
+            {{ range where .Site.Pages "Type" "pages" }}
+                {{ $permalinkURL := .URL | absLangURL }}
+                {{ if isset .Params "title"  }}
+                    | <a class="nav-link {{ if eq $permalinkURL $currentURL }} active{{ end }}" href="{{ .URL }}">{{ .Params.title }}</a>
+                {{ end }}
+            {{ end }}
+
+            {{ "<% } else { %>" | safeHTML }}
+            {{ with .Site.GetPage "section" "register" }}
+                {{ $permalinkURL := .URL | absLangURL }}
+                | <a class="nav-link{{ if eq $permalinkURL $currentURL }} active{{ end }}" href="{{ .URL }}">{{ .Params.title }}</a>
+            {{ end }}
+
+            {{ with .Site.GetPage "section" "login" }}
+                {{ $permalinkURL := .URL | absLangURL }}
+                | <a class="nav-link{{ if eq $permalinkURL $currentURL }} active{{ end }}" href="{{ .URL }}">{{ .Params.title }}</a>
+            {{ end }}
+
+        {{ "<% } %>" | safeHTML }}
+
+
+    </script>
 
     <script id="tpl_input" type="text/html">
         <div class="form-group">
