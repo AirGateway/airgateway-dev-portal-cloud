@@ -59,6 +59,8 @@ if ($dashboardContainer.length) {
                 generateChartForKey(planID, planID + "-method-breakdown-canvas", false);
                 generateMeanResponseTimeChart(planID, planID + "-method-breakdown-meantime-canvas");
                 generatePieChartForKey(planID, planID + "-method-breakdown-pie-canvas");
+                generateLookToBookRatioChart(planID, planID + "-look-to-book-ratio-canvas");
+                generateLookToBookLimitReachedChart(planID, planID + "-look-to-book-line-canvas");
                 //generateChartForParticipants(planID, planID + "-aggregator", true);
                 //generateChartForParticipants(planID, planID + "-agency", false);
             }
