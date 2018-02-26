@@ -230,10 +230,10 @@ var generateChartForKey = function (planID, canvasID, showRequests) {
     var fixedThenMonth = then.getMonth() + 1;
 
 
-    var url = urlMap.breakdownStats + planID;
+    var url = urlMap.breakdownStats + planID + '/' + selectedTimeWindow;
 
     if (showRequests) {
-        url = urlMap.requestStats + planID;
+        url = urlMap.requestStats + planID + '/' + selectedTimeWindow;
     }
 
     $.signedAjax({
@@ -268,7 +268,7 @@ var generateChartForKey = function (planID, canvasID, showRequests) {
 
             for (var i in jsonData.data) {
                 var thisDate = new Date(jsonData.data[i].id.time);
-                var l = thisDate.getHours() + ':00';
+                var l = getDateLabel(thisDate, selectedTimeWindow)
                 var success = jsonData.data[i].success;
                 var errors = jsonData.data[i].error;
                 var hits = jsonData.data[i].hits;
@@ -360,7 +360,7 @@ var generatePieChartForKey = function (planID, canvasID) {
     then.setDate(then.getDate() - 7);
     var fixedThenMonth = then.getMonth() + 1;
 
-    var url = urlMap.breakdownStats + planID;
+    var url = urlMap.breakdownStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
         url: host + url,
         success: function (data) {
@@ -468,7 +468,7 @@ var generatePieChartForKey = function (planID, canvasID) {
 
 
 var generateMeanResponseTimeChart = function (planID, canvasID) {
-    var url = urlMap.meantimeStats + planID;
+    var url = urlMap.meantimeStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
         url: host + url,
         success: function (response) {
@@ -502,7 +502,7 @@ var generateMeanResponseTimeChart = function (planID, canvasID) {
                 noData = true;
                 for (var i in response.data) {
                     var thisDate = new Date(response.data[i].id.time);
-                    var l = thisDate.getHours() + ':00';
+                    var l = getDateLabel(thisDate, selectedTimeWindow)
                     var hits = response.data[i].hits;
                     var errors = response.data[i].error;
 
@@ -573,7 +573,7 @@ var generateMeanResponseTimeChart = function (planID, canvasID) {
 
 
 var generateLookToBookRatioChart = function(planID, canvasID) {
-    var url = urlMap.lookToBookRatioStats + planID;
+    var url = urlMap.lookToBookRatioStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
         url: host + url,
         success: function (response) {
@@ -607,7 +607,7 @@ var generateLookToBookRatioChart = function(planID, canvasID) {
             if (jsonData.data != null) {
                 for (var i in jsonData.data) {
                     var thisDate = new Date(jsonData.data[i].id.time);
-                    var l = thisDate.getHours() + ':00';
+                    var l = getDateLabel(thisDate, selectedTimeWindow)
                     var hits = jsonData.data[i].hits;
 
                     var obj = {
@@ -648,7 +648,7 @@ var generateLookToBookRatioChart = function(planID, canvasID) {
 };
 
 var generateLookToBookLimitReachedChart = function(planID, canvasID) {
-    var url = urlMap.lookToBookLimitReachedStats + planID;
+    var url = urlMap.lookToBookLimitReachedStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
         url: host + url,
         success: function (response) {
@@ -685,7 +685,7 @@ var generateLookToBookLimitReachedChart = function(planID, canvasID) {
             if (jsonData.data != null) {
                 for (var i in jsonData.data) {
                     var thisDate = new Date(jsonData.data[i].id.time);
-                    var l = thisDate.getHours() + ':00';
+                    var l = getDateLabel(thisDate, selectedTimeWindow)
                     var hits = jsonData.data[i].hits;
 
                     var obj = {
@@ -728,6 +728,17 @@ var generateLookToBookLimitReachedChart = function(planID, canvasID) {
 
 var colors = [47, 30, 10, 70, 80, 30, 50, 0, 5, 90];
 
+function getDateLabel(date, mode) {
+    var l;
+
+    if (mode == 'day') {
+        l = date.getHours() + ':00';
+    } else {
+        l = date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
+    }
+
+    return l;
+}
 /*var generateChartForParticipants = function (keyId, canvasID, isAggregator) {
     var now = new Date();
     now.setDate(now.getDate() + 1);
@@ -794,7 +805,7 @@ var colors = [47, 30, 10, 70, 80, 30, 50, 0, 5, 90];
             if (jsonData.data != null) {
                 for (var i in jsonData.data) {
                     var thisDate = new Date(jsonData.data[i].id.time);
-                    var l = thisDate.getHours() + ':00';
+                    var l = getDateLabel(thisDate, selectedTimeWindow)
                     var hits = jsonData.data[i].hits;
 
                     var obj = {
