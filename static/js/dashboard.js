@@ -5,6 +5,8 @@ $dashboardContainer = $('#dashboard-panel');
 $dashboardInnerContainer = $('#dashboard-panel-inner');
 
 var plans = [];
+var selectedTimeWindow = 'day';
+var lastPlanID = '';
 
 if ($dashboardContainer.length) {
     var tplDashboardPlan = underscore.template($('#tpl_dashboard_plan').html());
@@ -41,6 +43,7 @@ if ($dashboardContainer.length) {
     function showPlan(planID) {
         for (var i in plans) {
             if (plans[i].id === planID) {
+                lastPlanID = planID;
                 $dashboardInnerContainer.html(tplDashboardPlan({
                     id: plans[i].id,
                     name: plans[i].name,
@@ -65,5 +68,10 @@ if ($dashboardContainer.length) {
                 //generateChartForParticipants(planID, planID + "-agency", false);
             }
         }
+    }
+
+    function changeTime(time) {
+        selectedTimeWindow = time;
+        showPlan(lastPlanID)
     }
 }
