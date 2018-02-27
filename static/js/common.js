@@ -219,6 +219,7 @@ var typesOfRequests = [
     'SeatAvailabilityRQ'
 ];
 
+var baseColor = '0, 100%, ';
 
 var generateChartForKey = function (planID, canvasID, showRequests) {
     var now = new Date();
@@ -241,7 +242,7 @@ var generateChartForKey = function (planID, canvasID, showRequests) {
         success: function (data) {
             var highlightColor = "#fff";
 
-            var baseColor = '217, 100%, '; //#00245D
+            // var baseColor = '217, 100%, '; //#00245D
 
             var cData = {
                 labels: [],
@@ -365,7 +366,7 @@ var generatePieChartForKey = function (planID, canvasID) {
         url: host + url,
         success: function (data) {
             //$.getJSON("/json-original.json", function(data) {
-            var baseColor = '217, 100%, '; //#00245D
+            // var baseColor = '217, 100%, '; //#00245D
 
             //var jsonData = JSON.parse(data);
             var jsonData = data;
@@ -473,7 +474,7 @@ var generateMeanResponseTimeChart = function (planID, canvasID) {
         url: host + url,
         success: function (response) {
             var highlightColor = '#fff';
-            var baseColor = '217, 100%, '; //#00245D
+            // var baseColor = '217, 100%, '; //#00245D
 
             var cData = {
                 labels: [],
@@ -580,7 +581,7 @@ var generateLookToBookRatioChart = function(planID, canvasID) {
 
             var highlightColor = '#fff';
 
-            var baseColor = '217, 100%, '; //#00245D
+            // var baseColor = '217, 100%, '; //#00245D
 
             var cData;
 
@@ -655,7 +656,7 @@ var generateLookToBookLimitReachedChart = function(planID, canvasID) {
 
             var highlightColor = '#fff';
 
-            var baseColor = '217, 100%, '; //#00245D
+            // var baseColor = '217, 100%, '; //#00245D
 
             var cData;
 
