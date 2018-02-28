@@ -222,6 +222,13 @@ var typesOfRequests = [
 var baseColor = '0, 100%, ';
 
 var generateChartForKey = function (planID, canvasID, showRequests) {
+    var $loader = $("#" + canvasID).siblings('.loader');
+    $loader.removeClass('hidden');
+    var $nativeElement = $("#" + canvasID).get(0);
+    var ctx = $nativeElement.getContext("2d");
+    ctx.clearRect(0, 0, $nativeElement.width, $nativeElement.height);
+
+
     var now = new Date();
     now.setDate(now.getDate() + 1);
     var fixedNowMonth = now.getMonth() + 1;
@@ -335,14 +342,14 @@ var generateChartForKey = function (planID, canvasID, showRequests) {
             }
 
             if (noData == true) {
-                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 ctx.font = '20px Lato';
                 ctx.textAlign = 'center';
                 ctx.fillText('No Available Data', 400, 100);
             } else {
-                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 var myNewChart = new Chart(ctx).Line(cData, chartOptions);
             }
+
+            $loader.addClass('hidden');
         },
         error: function (result) {
             if (result.status == 401) {
@@ -353,13 +360,11 @@ var generateChartForKey = function (planID, canvasID, showRequests) {
 };
 
 var generatePieChartForKey = function (planID, canvasID) {
-    var now = new Date();
-    now.setDate(now.getDate() + 1);
-    var fixedNowMonth = now.getMonth() + 1;
-
-    var then = new Date();
-    then.setDate(then.getDate() - 7);
-    var fixedThenMonth = then.getMonth() + 1;
+    var $loader = $("#" + canvasID).siblings('.loader');
+    $loader.removeClass('hidden');
+    var $nativeElement = $("#" + canvasID).get(0);
+    var ctx = $nativeElement.getContext("2d");
+    ctx.clearRect(0, 0, $nativeElement.width, $nativeElement.height);
 
     var url = urlMap.breakdownStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
@@ -399,7 +404,6 @@ var generatePieChartForKey = function (planID, canvasID) {
             }
 
             if (noData) {
-                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 ctx.font = "20px Lato";
                 ctx.textAlign = "center";
                 ctx.fillText("No Available Data", 400, 100);
@@ -455,9 +459,10 @@ var generatePieChartForKey = function (planID, canvasID) {
                     }
                 ];
 
-                var ctx = $("#" + canvasID).get(0).getContext("2d");
                 var pieChart = new Chart(ctx).Doughnut(pieData);
             }
+            $loader.addClass('hidden');
+
         },
         error: function (result) {
             if (result.status == 401) {
@@ -469,6 +474,13 @@ var generatePieChartForKey = function (planID, canvasID) {
 
 
 var generateMeanResponseTimeChart = function (planID, canvasID) {
+    var $loader = $("#" + canvasID).siblings('.loader');
+
+    $loader.removeClass('hidden');
+    var $nativeElement = $("#" + canvasID).get(0);
+    var ctx = $nativeElement.getContext("2d");
+    ctx.clearRect(0, 0, $nativeElement.width, $nativeElement.height);
+
     var url = urlMap.meantimeStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
         url: host + url,
@@ -559,8 +571,6 @@ var generateMeanResponseTimeChart = function (planID, canvasID) {
                 cData.datasets[9].data.push(fixedData[i].orderRetrieveRQs)
             }
 
-            var ctx = $("#" + canvasID).get(0).getContext("2d");
-
             if (noData == true) {
                 ctx.font = '20px Lato';
                 ctx.textAlign = 'center';
@@ -568,12 +578,19 @@ var generateMeanResponseTimeChart = function (planID, canvasID) {
             } else {
                 var myNewChart = new Chart(ctx).Line(cData, chartOptions);
             }
+            $loader.addClass('hidden');
         }
     });
 };
 
 
-var generateLookToBookRatioChart = function(planID, canvasID) {
+var generateLookToBookRatioChart = function (planID, canvasID) {
+    var $loader = $("#" + canvasID).siblings('.loader');
+    $loader.removeClass('hidden');
+    var $nativeElement = $("#" + canvasID).get(0);
+    var ctx = $nativeElement.getContext("2d");
+    ctx.clearRect(0, 0, $nativeElement.width, $nativeElement.height);
+
     var url = urlMap.lookToBookRatioStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
         url: host + url,
@@ -635,8 +652,6 @@ var generateLookToBookRatioChart = function(planID, canvasID) {
                 cData.datasets[0].data.push(fixedData[j][label]);
             }
 
-            var ctx = $("#" + canvasID).get(0).getContext("2d");
-
             if (noData === true) {
                 ctx.font = '20px Lato';
                 ctx.textAlign = 'center';
@@ -644,11 +659,18 @@ var generateLookToBookRatioChart = function(planID, canvasID) {
             } else {
                 var myNewChart = new Chart(ctx).Line(cData, chartOptions);
             }
+            $loader.addClass('hidden');
         }
     });
 };
 
-var generateLookToBookLimitReachedChart = function(planID, canvasID) {
+var generateLookToBookLimitReachedChart = function (planID, canvasID) {
+    var $loader = $("#" + canvasID).siblings('.loader');
+    $loader.removeClass('hidden');
+    var $nativeElement = $("#" + canvasID).get(0);
+    var ctx = $nativeElement.getContext("2d");
+    ctx.clearRect(0, 0, $nativeElement.width, $nativeElement.height);
+
     var url = urlMap.lookToBookLimitReachedStats + planID + '/' + selectedTimeWindow;
     $.signedAjax({
         url: host + url,
@@ -714,8 +736,6 @@ var generateLookToBookLimitReachedChart = function(planID, canvasID) {
                 }
             }
 
-            var ctx = $("#" + canvasID).get(0).getContext("2d");
-
             if (noData == true) {
                 ctx.font = '20px Lato';
                 ctx.textAlign = 'center';
@@ -723,6 +743,7 @@ var generateLookToBookLimitReachedChart = function(planID, canvasID) {
             } else {
                 var myNewChart = new Chart(ctx).Line(cData, chartOptions);
             }
+            $loader.addClass('hidden');
         }
     });
 };
@@ -740,6 +761,7 @@ function getDateLabel(date, mode) {
 
     return l;
 }
+
 /*var generateChartForParticipants = function (keyId, canvasID, isAggregator) {
     var now = new Date();
     now.setDate(now.getDate() + 1);
