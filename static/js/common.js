@@ -22,6 +22,8 @@ $.signedAjax = function (data) {
 var host = location.host.indexOf('localhost') == -1 ? 'https://hub.airgateway.net/api/' : 'http://localhost:3001';
 var urlMap = {
     login: '/auth/login',
+     forgotPassword: '/auth/forgot-password',
+    resetPassword: '/auth/reset-password',
     signup: '/auth/signup',
     fields: '/auth/signup-fields',
     graph: '',
