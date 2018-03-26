@@ -2,6 +2,16 @@
 <html lang="{{ .Lang }}">
 
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77281199-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-77281199-1');
+    </script>
+
     {{ partial "head-meta.html" . }}
 
     {{ block "schema-dot-org" . }}
@@ -36,15 +46,6 @@
     {{ partial "head-custom.html" . }}
 
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77281199-3"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-77281199-3');
-    </script>
   </head>
 
   <body>
