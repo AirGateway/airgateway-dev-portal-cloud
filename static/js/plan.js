@@ -19,6 +19,9 @@ if ($planListingPage) {
         error: function (result) {
             if (result.status == 401) {
                 $('#logout').click();
+                if (!localStorage.token) {
+                    location.href = "/"
+                }
             }
         }
     });
