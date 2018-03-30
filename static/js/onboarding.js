@@ -104,9 +104,7 @@ if ($onboardingPanel.length) {
             }
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result);
         }
     });
 
@@ -121,9 +119,7 @@ if ($onboardingPanel.length) {
                 }));
             },
             error: function (result) {
-                if (result.status == 401) {
-                    $('#logout').click();
-                }
+                checkAndLogout(result);
             }
         })
     }
@@ -156,9 +152,7 @@ if ($onboardingPanel.length) {
                 }
             },
             error: function (result) {
-                if (result.status == 401) {
-                    $('#logout').click();
-                }
+                checkAndLogout(result);
             }
         });
 
@@ -179,9 +173,7 @@ if ($onboardingPanel.length) {
                 }
             },
             error: function (result) {
-                if (result.status == 401) {
-                    $('#logout').click();
-                }
+                checkAndLogout(result);
             }
         });
     }
