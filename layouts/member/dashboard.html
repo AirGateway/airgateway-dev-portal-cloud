@@ -50,8 +50,23 @@
 
             <div class="well">
                 <h4>API usage last hours: </h4>
-                <iframe src="http://localhost:3001/grafana/d-solo/Bwws4wziz/consumer-stats?orgId=1&var-Environment=Hub&var-ConsumerID=AGW&var-APIID=&panelId=2&from=1522011600000&to=1522616399999"
+                <iframe src="http://hub-stats.airgateway.work/d-solo/Bwws4wziz/consumer-stats?type=api-usage&orgId=1&var-Environment=<%- varEnvironment %>&var-PlanID=<%- id %>&from=1522011600000&to=1522616399999"
                         width="450" height="200" frameborder="0"></iframe>
+
+                <h4>API usage last hours: </h4>
+                <div class="loader-wrapper">
+                    <div class="loader ball-spin-fade-loader">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <canvas id="<%- id %>" width="800" height="200"></canvas>
+                </div>
 
                 <h4>Method breakdown: </h4>
                 <div class="loader-wrapper">
