@@ -58,6 +58,7 @@ if ($dashboardContainer.length) {
                     auth_header: plans[i].auth_header,
                     key: plans[i].key,
                     varEnvironment: varEnvironment,
+                    token: localStorage.metricsToken,
                 }));
 
 
