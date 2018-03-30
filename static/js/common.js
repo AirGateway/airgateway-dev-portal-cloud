@@ -11,6 +11,16 @@
 function nl2br(text) {
     return text.replace(/([^>])\n/g, '$1<br/>');
 };
+function checkAndLogout(result) {
+    if (result.status === 401) {
+        $('#logout').click();
+        if (!localStorage.token) {
+            location.href = "/"
+        }
+    } else {
+        location.href = '/'
+    }
+}
 
 $.signedAjax = function (data) {
     data = data || {};
@@ -22,7 +32,7 @@ $.signedAjax = function (data) {
 var host = location.host.indexOf('localhost') == -1 ? 'https://hub.airgateway.net/api/' : 'http://localhost:3001';
 var urlMap = {
     login: '/auth/login',
-     forgotPassword: '/auth/forgot-password',
+    forgotPassword: '/auth/forgot-password',
     resetPassword: '/auth/reset-password',
     signup: '/auth/signup',
     fields: '/auth/signup-fields',
@@ -116,9 +126,7 @@ function openDocument(id) {
             }
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result);
         }
     });
 }
@@ -354,9 +362,7 @@ var generateChartForKey = function (planID, canvasID, showRequests) {
             $loader.addClass('hidden');
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result);
         }
     });
 };
@@ -467,9 +473,7 @@ var generatePieChartForKey = function (planID, canvasID) {
 
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result)
         }
     })
 };

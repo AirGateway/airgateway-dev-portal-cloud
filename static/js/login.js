@@ -25,7 +25,8 @@ $loginForm.submit(function (e) {
                 if (response.status === 'ERROR') {
                     showFormErrors(response.error);
                 } else {
-                    localStorage.token = response.meta;
+                    localStorage.token = response.data.token;
+                    localStorage.metricsToken = response.data.metrics_token;
                     location.href = '/';
                 }
             }

@@ -52,11 +52,7 @@ if ($formContainer.length) {
             }
         },
         error: function (result) {
-            if (result.status === 401) {
-                $('#logout').click();
-            } else {
-                location.href = '/'
-            }
+            checkAndLogout(result);
         }
     });
 
@@ -78,11 +74,7 @@ if ($formContainer.length) {
                 }
             },
             error: function (result) {
-                if (result.status === 401) {
-                    $('#logout').click();
-                } else {
-                    location.href = '/'
-                }
+                checkAndLogout(result);
             }
         });
     });

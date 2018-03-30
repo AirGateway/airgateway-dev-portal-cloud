@@ -29,9 +29,7 @@ $profileForm.submit(function (e) {
                 }
             },
             error: function (result) {
-                if (result.status == 401) {
-                    $('#logout').click();
-                }
+                checkAndLogout(result);
             }
         });
     }
@@ -57,9 +55,7 @@ if ($profileForm.length) {
             }
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result);
         }
     });
 }

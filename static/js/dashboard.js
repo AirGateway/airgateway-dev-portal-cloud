@@ -12,6 +12,10 @@ if ($dashboardContainer.length) {
     var tplDashboardPlan = underscore.template($('#tpl_dashboard_plan').html());
     var tplDashboardPlanSelect = underscore.template($('#tpl_dashboard_plan_select').html());
 
+    if (!localStorage.metricsToken) {
+        localStorage.token = '';
+    }
+
     $.signedAjax({
         url: host + urlMap.plans,
         success: function (response) {
@@ -24,9 +28,7 @@ if ($dashboardContainer.length) {
             renderPlanSelect();
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result)
         }
     });
 

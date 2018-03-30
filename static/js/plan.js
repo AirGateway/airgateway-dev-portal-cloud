@@ -17,12 +17,7 @@ if ($planListingPage) {
             }
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-                if (!localStorage.token) {
-                    location.href = "/"
-                }
-            }
+            checkAndLogout(result)
         }
     });
 
@@ -47,9 +42,7 @@ if ($planListingPage) {
             }
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result);
         }
     });
 
@@ -97,9 +90,7 @@ $(document).on('click', '.invalidateKey', function (e) {
             }
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result)
         }
     });
 });
