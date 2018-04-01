@@ -29,7 +29,6 @@ $.signedAjax = function (data) {
 
     $.ajax(data);
 };
-var varEnvironment = 'Hub';
 var host = location.host.indexOf('localhost') == -1 ? 'https://hub.airgateway.work/api/' : 'http://localhost:3001';
 var urlMap = {
     login: '/auth/login',
