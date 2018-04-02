@@ -46,21 +46,32 @@ if ($dashboardContainer.length) {
         for (var i in plans) {
             if (plans[i].id === planID) {
                 lastPlanID = planID;
-                $dashboardInnerContainer.html(tplDashboardPlan({
-                    id: plans[i].id,
-                    name: plans[i].name,
-                    short_description: plans[i].short_description,
-                    rate: plans[i].rate,
-                    per: plans[i].per,
-                    quota_max: plans[i].quota_max,
-                    quota_renewal_rate: plans[i].quota_renewal_rate,
-                    url: plans[i].url,
-                    auth_header: plans[i].auth_header,
-                    key: plans[i].key,
-                    token: localStorage.metricsToken,
-                    host: statsHost,
-                }));
 
+                $.signedAjax({
+                    url: host + urlMap.getStatsUrl + planID + '?type=api-usage,method-breakdown,method-breakdown-meantime,method-breakdown-percentage',
+                    success: function(res) {
+                        statsUrls = {
+                            'api-usage': res["api-usage"],
+                            'method-breakdown': res["method-breakdown"],
+                            'method-breakdown-meantime': res["method-breakdown-meantime"],
+                            'method-breakdown-percentage': res["method-breakdown-percentage"]
+                        };
+
+                        $dashboardInnerContainer.html(tplDashboardPlan({
+                            id: plans[i].id,
+                            name: plans[i].name,
+                            short_description: plans[i].short_description,
+                            rate: plans[i].rate,
+                            per: plans[i].per,
+                            quota_max: plans[i].quota_max,
+                            quota_renewal_rate: plans[i].quota_renewal_rate,
+                            url: plans[i].url,
+                            auth_header: plans[i].auth_header,
+                            key: plans[i].key,
+                            statsUrls: statsUrls
+                        }));
+                    }
+                })
 
                 /*generateChartForKey(planID, planID, true);
                 generateChartForKey(planID, planID + "-method-breakdown-canvas", false);

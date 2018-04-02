@@ -29,7 +29,7 @@ $.signedAjax = function (data) {
 
     $.ajax(data);
 };
-var statsHost = 'https://hub-stats.airgateway.work/';
+
 var host = location.host.indexOf('localhost') == -1 ? 'https://hub.airgateway.net/api/' : 'http://localhost:3001';
 var urlMap = {
     login: '/auth/login',
@@ -51,6 +51,7 @@ var urlMap = {
     newMessages: '/portal/chat/new-messages',
     document: '/portal/documents/',
     /* stats */
+    getStatsUrl: '/portal/stats/get/',
     requestStats: '/portal/stats/request/',
     breakdownStats: '/portal/stats/breakdown/',
     meantimeStats: '/portal/stats/meantime/',
