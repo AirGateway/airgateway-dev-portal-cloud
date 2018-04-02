@@ -48,7 +48,7 @@ if ($dashboardContainer.length) {
                 lastPlanID = planID;
 
                 $.signedAjax({
-                    url: host + urlMap.getStatsUrl + planID + '?type=api-usage,method-breakdown,method-breakdown-meantime,method-breakdown-percentage',
+                    url: host + urlMap.getStatsUrl + planID + '?type=api-usage,method-breakdown,method-breakdown-meantime,method-breakdown-percentage&time=' + selectedTimeWindow,
                     success: function(res) {
                         statsUrls = {
                             'api-usage': res["api-usage"],
