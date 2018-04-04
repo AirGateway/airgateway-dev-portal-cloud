@@ -49,9 +49,7 @@ if ($chatContainer.length) {
             emailForChat = response.data.email;
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result);
         }
     });
 
@@ -141,9 +139,7 @@ function loadMessages() {
             renderMessages()
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result)
         }
     });
 }
@@ -196,9 +192,7 @@ function createMessage() {
             renderMessages();
         },
         error: function (result) {
-            if (result.status == 401) {
-                $('#logout').click();
-            }
+            checkAndLogout(result);
         }
     });
 
