@@ -1,7 +1,7 @@
 ---
 title: Login
 email: Account Email
-emailplaceholder: Enter your account email
+emailplaceholder: Email Address youruser@yourdomain.test
 password: Password
 submit: Login
 ---
