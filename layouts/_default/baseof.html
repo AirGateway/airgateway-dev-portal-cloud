@@ -132,6 +132,17 @@
         </div>
     </script> {{ "<!-- /#tpl_input -->" | safeHTML }}
 
+    <script id="tpl_textarea" type="text/html">
+      <div class="form-group">
+        <label for="c<%- name %>">{{ "<%- label %>" | safeHTML }}</label>
+        <textarea class="form-control"
+              id="c<%- name %>"
+              name="<%- name %>"
+              rows="10"
+              autocomplete="off"></textarea>
+      </div>
+    </script> {{ "<!-- /#tpl_textarea -->" | safeHTML }}
+
     <script id="tpl_hidden_input" type="text/html">
         <div class="form-group">
             <input class="form-control"

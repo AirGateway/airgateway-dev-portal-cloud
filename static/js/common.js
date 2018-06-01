@@ -61,6 +61,7 @@ var urlMap = {
     lookToBookLimitReachedStats: '/portal/stats/look-to-book-limit/'
 };
 var tplInput = underscore.template($('#tpl_input').html());
+var tplTextarea = underscore.template($('#tpl_textarea').html());
 var tplMenu = underscore.template($('#tpl_menu').html());
 var tplHiddenInput = underscore.template($('#tpl_hidden_input').html());
 
