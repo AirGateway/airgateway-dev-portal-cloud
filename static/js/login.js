@@ -26,7 +26,6 @@ $loginForm.submit(function (e) {
                     showFormErrors(response.error);
                 } else {
                     localStorage.token = response.data.token;
-                    localStorage.metricsToken = response.data.metrics_token;
                     location.href = '/';
                 }
             }
