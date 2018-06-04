@@ -52,6 +52,27 @@ if ($profileForm.length) {
                         value: response.data.fields[i]
                     }));
                 }
+
+                if (response.data.consumer_data) {
+                    for (var i in response.data.consumer_data) {
+                        if (i != 'credentials') {
+                            $submitBtn.before(tplInput({
+                                name: i,
+                                label: 'Consumer ' + i.substr(0, 1).toUpperCase() + i.substr(1),
+                                value: response.data.consumer_data[i]
+                            }));
+                        }
+                    }
+                    for (var i in response.data.consumer_data) {
+                        if (i == 'credentials') {
+                            $submitBtn.before(tplTextarea({
+                                name: i,
+                                label: 'Consumer ' + i.substr(0, 1).toUpperCase() + i.substr(1),
+                            }));
+                            $('#c'+i).val(JSON.stringify(JSON.parse(response.data.consumer_data[i]), null, '\t'))
+                        }
+                    }
+                }
             }
         },
         error: function (result) {

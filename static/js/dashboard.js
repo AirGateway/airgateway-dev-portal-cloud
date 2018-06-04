@@ -12,10 +12,6 @@ if ($dashboardContainer.length) {
     var tplDashboardPlan = underscore.template($('#tpl_dashboard_plan').html());
     var tplDashboardPlanSelect = underscore.template($('#tpl_dashboard_plan_select').html());
 
-    if (!localStorage.metricsToken) {
-        localStorage.token = '';
-    }
-
     $.signedAjax({
         url: host + urlMap.plans,
         success: function (response) {
@@ -49,7 +45,7 @@ if ($dashboardContainer.length) {
 
                 $.signedAjax({
                     url: host + urlMap.getStatsUrl + planID + '?type=api-usage,method-breakdown,method-breakdown-meantime,method-breakdown-percentage&time=' + selectedTimeWindow,
-                    success: function(res) {
+                    success: function (res) {
                         statsUrls = {
                             'api-usage': res["api-usage"],
                             'method-breakdown': res["method-breakdown"],
@@ -70,6 +66,17 @@ if ($dashboardContainer.length) {
                             key: plans[i].key,
                             statsUrls: statsUrls
                         }));
+                    },
+                    error: function (result) {
+                        if (result.responseJSON) {
+                            if (result.responseJSON.error === 'no consumer assigned') {
+                                $dashboardInnerContainer.html('<div class="alert alert-danger">no consumer assigned</div>')
+                            } else if (result.responseJSON.error === 'invalid token') {
+                                localStorage.token = '';
+                                location.reload();
+                            }
+                        }
+
                     }
                 })
 
