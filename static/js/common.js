@@ -30,7 +30,7 @@ $.signedAjax = function (data) {
     $.ajax(data);
 };
 
-var host = location.host.indexOf('localhost') == -1 ? 'https://hub.airgateway.net/api/' : 'http://localhost:3001';
+var host = location.host.indexOf('localhost') == -1 ? 'https://hub.airgateway.com/api/' : 'http://localhost:3001';
 var urlMap = {
     login: '/auth/login',
     forgotPassword: '/auth/forgot-password',
