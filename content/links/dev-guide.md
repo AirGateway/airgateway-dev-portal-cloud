@@ -5,7 +5,7 @@ description: >-
   provide.
 date: 2017-07-31T10:59:56.000Z
 draft: false
-link: 'https://github.com/AirGateway/NDC-Gateway-Developer-Guide'
+link: 'https://dev-guides.airgateway.net/'
 weight: 10
 readmore: Read More
 ---
