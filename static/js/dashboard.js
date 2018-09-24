@@ -12,10 +12,6 @@ if ($dashboardContainer.length) {
     var tplDashboardPlan = underscore.template($('#tpl_dashboard_plan').html());
     var tplDashboardPlanSelect = underscore.template($('#tpl_dashboard_plan_select').html());
 
-    if (!localStorage.metricsToken) {
-        localStorage.token = '';
-    }
-
     $.signedAjax({
         url: host + urlMap.plans,
         success: function (response) {
@@ -46,39 +42,26 @@ if ($dashboardContainer.length) {
         for (var i in plans) {
             if (plans[i].id === planID) {
                 lastPlanID = planID;
+                $dashboardInnerContainer.html(tplDashboardPlan({
+                    id: plans[i].id,
+                    name: plans[i].name,
+                    short_description: plans[i].short_description,
+                    rate: plans[i].rate,
+                    per: plans[i].per,
+                    quota_max: plans[i].quota_max,
+                    quota_renewal_rate: plans[i].quota_renewal_rate,
+                    url: plans[i].url,
+                    auth_header: plans[i].auth_header,
+                    key: plans[i].key
+                }));
 
-                $.signedAjax({
-                    url: host + urlMap.getStatsUrl + planID + '?type=api-usage,method-breakdown,method-breakdown-meantime,method-breakdown-percentage&time=' + selectedTimeWindow,
-                    success: function(res) {
-                        statsUrls = {
-                            'api-usage': res["api-usage"],
-                            'method-breakdown': res["method-breakdown"],
-                            'method-breakdown-meantime': res["method-breakdown-meantime"],
-                            'method-breakdown-percentage': res["method-breakdown-percentage"]
-                        };
 
-                        $dashboardInnerContainer.html(tplDashboardPlan({
-                            id: plans[i].id,
-                            name: plans[i].name,
-                            short_description: plans[i].short_description,
-                            rate: plans[i].rate,
-                            per: plans[i].per,
-                            quota_max: plans[i].quota_max,
-                            quota_renewal_rate: plans[i].quota_renewal_rate,
-                            url: plans[i].url,
-                            auth_header: plans[i].auth_header,
-                            key: plans[i].key,
-                            statsUrls: statsUrls
-                        }));
-                    }
-                })
-
-                /*generateChartForKey(planID, planID, true);
+                generateChartForKey(planID, planID, true);
                 generateChartForKey(planID, planID + "-method-breakdown-canvas", false);
                 generateMeanResponseTimeChart(planID, planID + "-method-breakdown-meantime-canvas");
                 generatePieChartForKey(planID, planID + "-method-breakdown-pie-canvas");
                 generateLookToBookRatioChart(planID, planID + "-look-to-book-ratio-canvas");
-                generateLookToBookLimitReachedChart(planID, planID + "-look-to-book-line-canvas");*/
+                generateLookToBookLimitReachedChart(planID, planID + "-look-to-book-line-canvas");
                 //generateChartForParticipants(planID, planID + "-aggregator", true);
                 //generateChartForParticipants(planID, planID + "-agency", false);
             }
