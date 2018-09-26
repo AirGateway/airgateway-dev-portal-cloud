@@ -51,7 +51,6 @@ var urlMap = {
     newMessages: '/portal/chat/new-messages',
     document: '/portal/documents/',
     /* stats */
-    getStatsUrl: '/portal/stats/get/',
     requestStats: '/portal/stats/request/',
     breakdownStats: '/portal/stats/breakdown/',
     meantimeStats: '/portal/stats/meantime/',
