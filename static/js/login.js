@@ -26,6 +26,7 @@ $loginForm.submit(function (e) {
                     showFormErrors(response.error);
                 } else {
                     localStorage.token = response.data.token;
+                    localStorage.isSuperagent = response.data.is_superagent;
                     location.href = '/';
                 }
             }
