@@ -55,6 +55,7 @@ if ($dashboardContainer.length) {
                     key: plans[i].key
                 }));
 
+
                 generateChartForKey(planID, planID, true);
                 generateChartForKey(planID, planID + "-method-breakdown-canvas", false);
                 generateMeanResponseTimeChart(planID, planID + "-method-breakdown-meantime-canvas");
