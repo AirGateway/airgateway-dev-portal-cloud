@@ -86,6 +86,7 @@
                 <div class= "dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/member/dashboard/">{{.Params.menuapidashboard}}</a>
                     <a class="dropdown-item" href="/member/profile/">{{.Params.menueditprofile}}</a>
+                    <a class="dropdown-item isSuperagent" href="/member/agents/">{{.Params.menuagents}}</a>
                   <div class="dropdown-divider"></div>
                     <a id="logout" class="dropdown-item" href="#">{{.Params.menulogout}}</a>
                 </div>
@@ -187,12 +188,14 @@
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/common.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/chat.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/dashboard.js"></script>
+    <script type="text/javascript" src="{{ .Site.BaseURL }}js/agents.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/login.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/forgot-password.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/reset-password.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/plan.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/profile.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/register.js"></script>
+    <script type="text/javascript" src="{{ .Site.BaseURL }}js/register-from-email.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/form.js"></script>
     <script type="text/javascript" src="{{ .Site.BaseURL }}js/onboarding.js"></script>
   </body>
